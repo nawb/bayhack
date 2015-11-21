@@ -1,0 +1,62 @@
+@font-face {
+    font-family: "ClearSans";
+    src: url("../fonts/ClearSans-Regular.ttf");
+}
+
+.submitpage-p {
+	font-size:24px !important;
+    max-width: 95% !important;
+	color: #fff !important;
+	text-transform: initial !important;
+	font-family: "ClearSans";
+}
+
+.submit-google-button {
+    font-size: 30px !important;
+    font-family: "ClearSans";
+    font-weight: lighter;
+    text-transform: initial;
+    border-radius: 10px;
+    padding-right:20px !important;
+    padding-left:10px !important;
+    padding-top:8px !important;
+    padding-bottom:15px !important;
+
+    height:100px;
+    margin: 10px !important;
+
+    background-color: #a3ef9c;
+    
+}
+
+.submit-google-icon {
+    font-size: 40px !important;
+    padding-right: 30px;
+    padding-left: 10px;
+    padding-top: 10px;
+    padding-bottom: 0px;
+    transition: 0.5s;
+}
+
+.submit-google-btn-text {
+    font-size: 30px !important;
+    margin: 10px !important;
+    transition: 0.5s;
+}
+
+.whiteText {
+    color: #fff !important;
+}
+
+.blackText {
+    color: #000 !important;
+}
+
+.submit-arrow-icon {
+    font-size: 40px !important;
+    padding-right: 30px;
+    padding-left: 10px;
+    padding-top: 10px;
+    padding-bottom: 0px;
+    transition: 0.5s;
+}

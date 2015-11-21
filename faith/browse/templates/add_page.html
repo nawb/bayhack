@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <META NAME="ROBOTS" CONTENT="NOINDEX">
+
+    <title>DeenTrek</title>
+
+    <link href={% static "css/landing.css"%} rel="stylesheet">
+    
+    <style>
+    tr:nth-child(2n)
+    {
+    background-color:#eee;
+    }
+
+    .my-radio {
+      margin:10px !important;
+      margin-left: 25px !important;
+      width:30px;
+      height:30px;
+      position:relative;
+      top:8px;
+      background-color: #ddd !important;
+    }
+
+
+    
+
+    .radio-text {
+      font-size: 20px;
+      font-family: "OpenSans";
+      font-weight: bold;
+    }
+
+
+    </style>
+
+</head>
+<link href={% static "css/bootstrap.min.css"%} rel="stylesheet">
+<body>
+
+
+
+<h1 style="font-family:'OpenSans'; font-weight: bold;padding:10px; text-align: center;">Add Page <span style="font-size:24px">({{ all_links.count }} Links)</span></h1>
+
+<div id="the-basics">
+<center>
+<form method="POST" style="" action="/add-form/">
+    {%csrf_token%}
+  <input required style="font-size: 20px; font-family: 'OpenSans';" class="typeahead" size="100" type="text" placeholder="Link URL" id="lurl" name="lurl">
+  <input style="font-family: 'OpenSans'; font-weight:bold;  background-color:#5cb85c; color:white; border: solid #5cb85c 1px; border-radius:5px; padding:5px; padding-left:10px;padding-right:10px; height:45px; width: 150px" type="submit">
+  <br>
+  <br> 
+  <span class="radio-text">
+    <input required type="radio" class="my-radio" id="ltag" name="ltag" value="YouTube">YouTube&emsp;
+    <input type="radio" class="my-radio" id="ltag" name="ltag" value="Article">Article&emsp;
+    <input type="radio" class="my-radio" id="ltag" name="ltag" value="Quran">Quran&emsp;
+    <input type="radio" class="my-radio" id="ltag" name="ltag" value="Sunnah">Sunnah&emsp;
+    <input type="radio" class="my-radio" id="ltag" name="ltag" value="Poetry">Poetry&emsp;
+    <input type="radio" class="my-radio" id="ltag" name="ltag" value="Quiz">Quiz&emsp;
+    <input type="radio" class="my-radio" id="ltag" name="ltag" value="Tweet">Tweet
+  </span>
+</form>
+</center>
+</div>
+
+
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Link ID</th>
+        <th>Title</th>
+        <th>Link</th>
+        <th>Tag</th>
+      </tr>
+    </thead>
+    <tbody>
+    {%for link in all_links reversed%}
+      <tr>
+        <td>{{forloop.counter}}</td>
+        <td>{{link.id}}</td>
+        <td>{{link.title}}</td>
+        <td>{{link.url}}</td>
+        <td>{{link.tag}}</td>
+        <td><a href="/view/{{link.id}}" target="new_page">View</a></td>
+      </tr>
+      {%endfor%}
+    </tbody>
+  </table>    
+</body>
+
+{%include 'js.html'%}
+<script src={% static "js/typeahead.js"%}></script> 
+
+
+<script>
+
+var inputUrl;
+var detectArticle=0;
+var articleWebsites = ["seekershub.org", "al-islam.org", "religionfacts.com", "huffingtonpost.com", "missionislam.com", "wikihow.com", "newyorker.com", "muslimmatters.org", "aljazeera.com", "zakat.org", "theramadanblog", "blogspot", "haqislam.org", "article", "onislam.net", "islamweb.net"];
+
+//if the text in textbox changes
+$('#lurl').on('input',function(e){
+    inputUrl = $('#lurl').val();
+
+    if (inputUrl.indexOf("quran.com") > -1) {
+      $('input:radio[name=ltag]').val(['Quran']);      
+    }
+
+    if (inputUrl.indexOf("sunnah.com") > -1) {
+      $('input:radio[name=ltag]').val(['Sunnah']);      
+    }
+
+    if (inputUrl.indexOf("youtube.com") > -1) {
+      $('input:radio[name=ltag]').val(['YouTube']);      
+    }
+
+    if (inputUrl.indexOf("twitter.com") > -1) {
+      $('input:radio[name=ltag]').val(['Tweet']);      
+    }
+
+
+    detectArticle = 0;
+    //loop through the articleWebsites array and check for matches in inpurUrl
+    for (i=0; i<articleWebsites.length ; i++) {
+      if (inputUrl.indexOf(articleWebsites[i]) > -1) {
+        detectArticle=1;
+      }
+    }
+
+    if (detectArticle==1) {
+      $('input:radio[name=ltag]').val(['Article']);      
+    }
+
+});
+
+
+
+
+$( document ).ready(function() {
+});
+
+var substringMatcher = function(strs) {
+  return function findMatches(q, cb) {
+    var matches, substringRegex;
+
+    // an array that will be populated with substring matches
+    matches = [];
+
+    // regex used to determine if a string contains the substring `q`
+    substrRegex = new RegExp(q, 'i');
+
+    // iterate through the pool of strings and for any string that
+    // contains the substring `q`, add it to the `matches` array
+    $.each(strs, function(i, str) {
+      if (substrRegex.test(str)) {
+        matches.push(str);
+      }
+    });
+
+    cb(matches);
+  };
+};
+
+var states = [{%for link in all_links%}'{{link.url}}', {%endfor%}];
+
+$('#the-basics .typeahead').typeahead({
+  hint: true,
+  highlight: true,
+  minLength: 1
+},
+{
+  name: 'states',
+  source: substringMatcher(states)
+});
+
+
+</script>
+</html>

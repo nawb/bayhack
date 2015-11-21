@@ -1,0 +1,112 @@
+/*for mobile*/
+@media screen and (max-width: 600px) {
+
+
+
+/*background image*/
+#home {
+	animation: none !important;
+	background-image: url(../img/header.jpg);
+}
+
+/* no animations */
+.blur-text {
+	animation: none !important;
+	color: white !important;
+    text-shadow: 0 0 0px white !important;
+}
+
+.homepage-hr {
+	animation: none !important;
+	max-width: 50% !important;
+}
+
+.homepage-button {
+	animation: none !important;
+	opacity: 1;
+}
+
+/*font sizes*/
+.homepage-h1 {
+	font-size: 10vw !important;
+}
+
+.homepage-p {
+	font-size: 4vw !important;
+}
+
+.one-liner-text {
+	font-size: 4vw !important;
+}
+
+.about-heading {
+	font-size: 8vw !important;	
+}
+
+.about-text {
+	font-size: 4vw !important;
+	text-align: left;
+}
+
+.easy-text {
+	text-align: center !important;
+}
+
+.howto-heading {
+	font-size:7vw !important;
+}
+
+.howto-numbers {
+	font-size: 10vw !important;
+}
+
+.howto-text {
+	font-size: 4vw !important;
+	text-align: left;
+}
+
+.contact-heading {
+	font-size: 10vw !important;
+}
+
+/*copy link box*/
+.howto-textbox {
+	width:50vw !important;
+}
+
+/*image sizes*/
+.why-image {
+	height: initial;
+	width: 90vw;
+}
+
+.how-image {
+	height: initial;
+	width: 90vw;
+}
+
+/*beta sign*/
+.beta {
+	font-size:5vw !important; 
+	position: relative; 
+	bottom:5px !important; 
+	right: 0px !important;
+}
+
+/*padding and margins*/
+.about-all {
+	padding-top:0px !important;
+}
+
+.row {
+	margin-right: 0px !important;
+	margin-left: 0px !important
+}
+
+section {
+	padding-top: 6vw !important;
+	padding-bottom: 6vw !important;
+}
+
+
+}

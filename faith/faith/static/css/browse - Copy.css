@@ -1,0 +1,627 @@
+@media (max-width: 1400px) {
+
+.browse-navbar {
+    min-height: 45px !important;
+}
+
+.stumble-group p {font-size:12px;}
+.stumble-group i {font-size:12px;}
+
+.pull-right p {font-size:12px;}
+.pull-right textarea {font-size:12px;} 
+
+.stumble-button {
+    border-radius: 6px !important;
+    padding-right: 10px !important;
+    padding-left: 10px !important;
+    padding-top: 1px !important;
+    padding-bottom: 4px !important;
+}
+
+.logout {
+    padding:6px !important;
+    top:10px !important;
+}
+
+.google-button {
+    border-radius: 6px !important;
+    height: 30px !important;
+}
+
+.google-icon {
+    padding-left:5px !important;
+    padding-right:10px !important;
+}
+
+#report-broken a {
+    border-radius: 6px !important;
+    margin-top: 10px !important;
+    height:30px;
+}  
+
+.google-btn-text {
+    border-radius: 6px !important;
+    padding-right: 0px !important;
+    padding-left: 0px !important;
+    padding-top: 0px !important;
+    padding-bottom: 0px !important;
+} 
+
+#share a {
+    border-radius: 6px !important;
+    margin-top: 10px !important;
+} 
+
+.share-icon {
+    border-radius: 6px !important;
+    padding-right: 5px !important;
+    padding-left: 7px !important;
+    padding-top: 8px !important;
+    padding-bottom: 0px !important;
+} 
+
+.interests-button {
+    border-radius: 6px !important;
+    padding-right: 10px !important;
+    padding-left: 12px !important;
+    padding-top: 4px !important;
+    padding-bottom: 5px !important;
+    height: 30px !important;
+    margin-top: 50px;
+    }  
+
+
+
+#stumble-click {
+    border-radius: 6px !important;
+    padding-right: 10px !important;
+    padding-left: 12px !important;
+    padding-top: 4px !important;
+    padding-bottom: 5px !important;
+    }  
+
+
+}
+
+
+#main-button {
+    padding-left:0px;
+    padding-right:0px;
+    transition: 0.2s;
+}
+
+
+
+.stumble-button {
+    font-size: 16px;
+    font-family: "OpenSans";
+    font-weight: lighter;
+    text-transform: initial;
+    border-radius: 10px;
+    padding-right:20px;
+    padding-left:20px;
+    padding-top:6px;
+    padding-bottom:10px;
+
+    margin: 8px !important;
+    
+}
+
+.stumble-button-green {
+    font-size: 16px;
+    font-family: "OpenSans";
+    font-weight: lighter;
+    text-transform: initial;
+    border-radius: 10px;
+    padding-right:20px !important;
+    padding-left:20px !important;
+    padding-top:6px !important;
+    padding-bottom:10px !important;
+
+    margin: 8px !important;
+
+    background-color: #006600 !important;
+    box-shadow: 0px 0px 4px 2px rgba(160,255,160,0.6);
+}
+
+.stumble-button-red {
+    font-size: 16px;
+    font-family: "OpenSans";
+    font-weight: lighter;
+    text-transform: initial;
+    border-radius: 10px;
+    padding-right:20px !important;
+    padding-left:20px !important;
+    padding-top:6px !important;
+    padding-bottom:10px !important;
+
+    margin: 8px !important;
+
+    background-color: #660000 !important;
+
+    box-shadow: 0px 0px 4px 2px rgba(255,160,160,0.6);
+}
+
+
+
+.thanks-button {
+    font-size: 16px;
+    font-family: "OpenSans";
+    font-weight: lighter;
+    text-transform: initial;
+    border-radius: 10px;
+    padding-right:20px !important;
+    padding-left:20px !important;
+    padding-top:6px !important;
+    padding-bottom:10px !important;
+
+    margin: 8px !important;
+
+    background-color: green;
+    
+    
+    transition: 1s;
+}
+
+#thanks {
+    width: 0px;
+    opacity: 0;
+}
+
+.thanks-button:hover{
+    background-color: green !important;
+}
+.thanks-button:focus{
+    background-color: green !important;
+}
+
+.stumble-btn-text {
+
+    color: #fff;
+    margin: 0px !important;
+}
+
+.broken-icon {
+    color:#fff;
+    padding-right: 10px;
+    padding-left: 10px;
+    padding-top: 10px;
+    padding-bottom: 6px;
+}
+
+.share-icon {
+    color:#fff;
+    padding-right: 6px;
+    padding-left: 10px;
+    padding-top: 10px;
+    padding-bottom: 6px;
+}
+
+.google-button {
+    font-size: 20px;
+    font-family: "OpenSans";
+    font-weight: lighter;
+    text-transform: initial;
+    border-radius: 10px;
+    padding-right:10px !important;
+    padding-left:5px !important;
+    padding-top:0px !important;
+    padding-bottom:5px !important;
+
+    margin: 10px !important;
+
+    background-color: #a3ef9c;
+    
+}
+
+
+.google-button:hover {
+    background-color: #65b1d4 !important;   
+}
+
+.google-icon {
+    color:#fff;
+    padding-right: 20px;
+    padding-left: 10px;
+    padding-top: 10px;
+    padding-bottom: 6px;
+}
+
+.google-btn-text {
+    color: #fff;
+    margin: 0px !important;
+}
+
+.share-btn-text {
+    font-weight: light;
+    color: #fff;
+    margin: 0px !important;
+}
+
+.navbar-center {
+    display: inline-block;
+    float: none;
+    margin: auto;
+}
+
+.center-nav {
+position:absolute;
+width: 100%;
+left: 0;
+top: 0;
+text-align: center;
+margin: auto;
+}
+
+.stumble-group {
+
+    display: inline;
+    position:relative;
+    left:100px;
+}
+
+
+
+
+.browse-navbar {
+
+    background-color: #000;
+}
+
+.myText {
+    vertical-align: top;
+}
+
+.feedback {
+    font-size: 17px;
+    padding: 5px;
+    margin: 10px;
+    width: 150px;
+    height: 200px;
+    transition: all 200ms;
+    opacity: 1.0;
+    /*border: 15px solid black !important;*/
+}
+
+.feedback:focus {
+    width:300px;
+    height:200px;
+    opacity:1;
+}
+
+.myInput {
+    vertical-align: top;
+}
+
+.send-btn {
+    font-family: "OpenSans";
+    font-weight: bold;
+    font-size: 16px !important;
+}
+
+#b {
+    opacity:0;
+    transition: all 200ms;
+    width: 100px;
+    margin: 0 auto 0;
+
+}
+/*
+#a:focus ~ #b {
+    opacity:1 !important;
+}
+
+*/
+
+.form-control.feedback::-webkit-input-placeholder { color: #969696; }
+.form-control.feedback:-moz-placeholder { color: #969696; }
+.form-control.feedback::-moz-placeholder { color: #969696; }
+.form-control.feedback:-ms-input-placeholder { color: #969696; }
+
+.bubble-hr {
+    max-width:220px;
+    border-width: 1.5px;
+}
+
+#bubble 
+{
+position: absolute;
+width: 330px;
+height: 300px;
+padding: 0px;
+background: #FFFFFF;
+-webkit-border-radius: 10px;
+-moz-border-radius: 10px;
+border-radius: 10px;
+color: black;
+opacity: 0;
+
+transition-duration: 0.1s;
+transition-timing-function: ease-out;
+
+/*gradient*/
+background: -webkit-linear-gradient(white, #ddd); /* For Safari 5.1 to 6.0 */
+background: -o-linear-gradient(white, #ddd); /* For Opera 11.1 to 12.0 */
+background: -moz-linear-gradient(white, #ddd); /* For Firefox 3.6 to 15 */
+background: linear-gradient(white, #ddd); /* Standard syntax */
+
+}
+
+#share-bubble 
+{
+position: absolute;
+width: 305px;
+height: 120px;
+padding: 0px;
+background: #FFFFFF;
+-webkit-border-radius: 10px;
+-moz-border-radius: 10px;
+border-radius: 10px;
+color: black;
+opacity: 0;
+
+transition-duration: 0.1s;
+transition-timing-function: ease-out;
+
+/*gradient*/
+background: -webkit-linear-gradient(white, #ddd); /* For Safari 5.1 to 6.0 */
+background: -o-linear-gradient(white, #ddd); /* For Opera 11.1 to 12.0 */
+background: -moz-linear-gradient(white, #ddd); /* For Firefox 3.6 to 15 */
+background: linear-gradient(white, #ddd); /* Standard syntax */
+
+}
+
+#bubble:after 
+{
+content: '';
+position: absolute;
+border-style: solid;
+border-width: 0 8px 9px;
+border-color: #FFFFFF transparent;
+display: block;
+width: 0;
+z-index: -1;
+top: -9px;
+left: 22px;
+
+}
+
+.back-button {
+    font-size: 16px;
+    font-family: "OpenSans";
+    font-weight: lighter;
+    text-transform: initial;
+    border-radius: 10px;
+    padding-right:20px;
+    padding-left:20px;
+    padding-top:6px;
+    padding-bottom:10px;
+
+    margin: 8px;
+    
+
+    background-color: #a3ef9c;  
+}
+
+
+#interests-text {
+    font-family: "OpenSans";
+    font-weight: lighter;
+    text-transform: initial;
+}
+
+.interests-options {
+    font-family: "OpenSans";
+    font-weight: lighter;
+    text-transform: initial;   
+}
+
+.interests-button {
+    font-size: 16px;
+    font-family: "OpenSans";
+    font-weight: lighter;
+    text-transform: initial;
+    border-radius: 10px;
+    padding-right:20px;
+    padding-left:20px;
+    padding-top:6px;
+    padding-bottom:10px;
+
+    margin: 8px;
+    margin-right: 60px;
+
+    background-color: #a3ef9c;  
+}
+
+
+.interests-btn-text {
+    color: #fff;
+    margin: 0px !important;
+}
+
+#toggle-me {
+    z-index:100;
+}
+
+.toggle-btn {
+    font-size: 16px;
+    font-family: "OpenSans";
+    font-weight: lighter;
+    text-transform: initial;
+    border-radius: 10px;
+    padding-right:20px !important;
+    padding-left:20px !important;
+    padding-top:6px !important;
+    padding-bottom:10px !important;
+
+    margin: 8px !important;
+
+    background-color: red;
+    
+}
+.toggle-btn:hover {
+    background-color: #65b1d4 !important;   
+}
+
+.toggle-btn:focus {
+    background-color: #a3ef9c !important;   
+}
+
+.bubble-list {
+    margin-right: 40px !important;
+    list-style:none;
+}
+
+.share-list {
+    position: relative;
+    left: -22px;
+    list-style:none;
+}
+
+.share-group {
+    display: inline;
+
+}
+
+.share-btns {
+    color: white;
+    width: 40px;
+    height: 40px;
+    text-align: center;
+    vertical-align: center;
+    font-size:30px;
+    border: none;
+    border-radius: 0px !important;
+    transition: 0.1s;
+    margin:0px;
+    padding:0px;
+    margin-top:14px;
+}
+
+#share-fb {
+    background-color: #3b5998;
+}
+
+#share-fb:hover {
+    color: #3b5998;
+    background-color: white;
+}
+
+#share-twitter {
+    background-color: #00aced;
+}
+
+#share-twitter:hover {
+    color: #00aced;
+    background-color: white;
+}
+
+#share-google {
+    background-color: #dd4b39;
+}
+
+#share-google:hover {
+    color: #dd4b39;
+    background-color: white;
+}
+
+#share-pinterest {
+    background-color: #cb2027;
+}
+
+#share-pinterest:hover {
+    color: #cb2027;
+    background-color: white;
+}
+
+#share-email {
+    background-color: #777;
+}
+
+#share-email:hover {
+    color: #777;
+    background-color: white;
+}
+
+#share-copy {
+    background-color: #698164;
+}
+
+#share-copy:hover {
+    color: #698164;
+    background-color: white;
+}
+
+#share-bubble-text {
+    font-family: "OpenSans";
+    font-weight: lighter;
+    text-transform: initial;
+    margin-bottom:0px;
+}
+
+.green {
+/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#2fab4f+0,0d5b00+100 */
+background: #2fab4f; /* Old browsers */
+background: -moz-linear-gradient(top,  #2fab4f 0%, #a3ef9c 100%); /* FF3.6+ */
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#2fab4f), color-stop(100%,#a3ef9c)); /* Chrome,Safari4+ */
+background: -webkit-linear-gradient(top,  #2fab4f 0%,#a3ef9c 100%); /* Chrome10+,Safari5.1+ */
+background: -o-linear-gradient(top,  #2fab4f 0%,#a3ef9c 100%); /* Opera 11.10+ */
+background: -ms-linear-gradient(top,  #2fab4f 0%,#a3ef9c 100%); /* IE10+ */
+background: linear-gradient(to bottom,  #2fab4f 0%,#a3ef9c 100%); /* W3C */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#2fab4f', endColorstr='#a3ef9c',GradientType=0 ); /* IE6-9 */
+
+transition: none !important;
+}
+
+.green:hover {
+    /*box-shadow:  0px 0px 3px 2px rgba(255,255,255,1);*/
+    /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#6fd489+0,499d3b+100 */
+background: #6fd489; /* Old browsers */
+background: -moz-linear-gradient(top,  #6fd489 0%, #499d3b 100%); /* FF3.6+ */
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#6fd489), color-stop(100%,#499d3b)); /* Chrome,Safari4+ */
+background: -webkit-linear-gradient(top,  #6fd489 0%,#499d3b 100%); /* Chrome10+,Safari5.1+ */
+background: -o-linear-gradient(top,  #6fd489 0%,#499d3b 100%); /* Opera 11.10+ */
+background: -ms-linear-gradient(top,  #6fd489 0%,#499d3b 100%); /* IE10+ */
+background: linear-gradient(to bottom,  #6fd489 0%,#499d3b 100%); /* W3C */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#6fd489', endColorstr='#499d3b',GradientType=0 ); /* IE6-9 */
+}
+
+.green:active {
+/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#006106+26,004f00+100 */
+background: #006106; /* Old browsers */
+background: -moz-linear-gradient(top,  #006106 26%, #004f00 100%); /* FF3.6+ */
+background: -webkit-gradient(linear, left top, left bottom, color-stop(26%,#006106), color-stop(100%,#004f00)); /* Chrome,Safari4+ */
+background: -webkit-linear-gradient(top,  #006106 26%,#004f00 100%); /* Chrome10+,Safari5.1+ */
+background: -o-linear-gradient(top,  #006106 26%,#004f00 100%); /* Opera 11.10+ */
+background: -ms-linear-gradient(top,  #006106 26%,#004f00 100%); /* IE10+ */
+background: linear-gradient(to bottom,  #006106 26%,#004f00 100%); /* W3C */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#006106', endColorstr='#004f00',GradientType=0 ); /* IE6-9 */
+
+}
+
+.grey {
+    background-color: #222;
+    width: 15vw;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.grey:hover {
+    background-color: #555;
+}
+
+
+
+
+.upnext-label-text {
+    font-size: 12px;
+    text-align: left;
+
+    color: #fff;
+    margin: 0px !important;
+    white-space: nowrap; 
+    
+    overflow: hidden;
+    text-overflow: ellipsis; 
+    
+}

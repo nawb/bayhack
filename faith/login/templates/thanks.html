@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>DeenTrek</title>
+
+    {%include 'css.html'%}
+
+</head>
+
+<body id="page-top">
+
+    <nav id="mainNav" class="navbar navbar-default navbar-fixed-top landing-navbar home-nav">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand page-scroll" id="logo" href="#page-top">Feedback</a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a class="page-scroll nav-links" href="#home">{{ person_name }}</a>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container-fluid -->
+    </nav>
+
+
+
+    <header ckass="pagescroll" id="home">
+        <div class="header-content">
+          
+            <div class="header-content-inner">
+                <h1 class="homepage-h1">Thank you</h1>
+                <hr class="homepage-hr">
+                <p class="submitpage-p">Your feedback is the most integral part of DeenTrek.<br>It helps us
+                optimize your browsing experience.
+                <br>
+                </p>
+                
+                <a class="btn btn-primary btn-xl page-scroll homepage-button" id="submit-btn-2" href="/browse/" >
+                    <p class="submit-google-btn-text whiteText" id="submit-text-2"><i id="icon-2" class="fa fa-share submit-google-icon whiteText"></i>Start DeenTrek</p>
+                </a>
+            </div>
+        </div>
+    </header>
+
+
+{%include 'js.html'%}
+
+<script>
+console.log('intiialized');
+
+
+$('#submit-btn-2').hover(function() {
+    $('#submit-text-2').addClass("blackText");
+    $('#icon-2').addClass("blackText");
+    $('#submit-text-2').removeClass("whiteText");
+    $('#icon-2').removeClass("whiteText");
+},
+function() {
+    $('#submit-text-2').removeClass("blackText");
+    $('#icon-2').removeClass("blackText");
+    $('#submit-text-2').addClass("whiteText");
+    $('#icon-2').addClass("whiteText");
+});
+
+</script>
+
+</body>
+
+</html>

@@ -1,0 +1,9 @@
+{% if user and not user.is_anonymous %}
+  <a>Hello, {{ user.get_full_name }}!</a>
+  <br>
+  <a href="/logout">Logout</a>
+{% else %}
+  <a href="{% url 'social:begin' 'google-oauth2' %}?next=/browse/">Login with Google</a>
+  <br>
+  <a href="{% url 'social:begin' 'facebook' %}?next=/browse/">Login with Facebook (doesn't work yet)</a>
+{% endif %}

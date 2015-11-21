@@ -1,0 +1,1786 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>DeenTrek: Browse the best Islamic content</title>
+
+    {%include 'css.html'%}
+
+    <script>
+    var use_frame = 2;
+    var showYoutube = {{showYoutube|yesno:"true,false"}};
+    var showArticles = {{showArticles|yesno:"true,false"}};
+    var showQuran = {{showQuran|yesno:"true,false"}};
+    var showSunnah = {{showSunnah|yesno:"true,false"}};
+    var showPoetry = {{showPoetry|yesno:"true,false"}};
+    var showQuizzes = {{showQuizzes|yesno:"true,false"}};
+    var showTweets = {{showTweets|yesno:"true,false"}};
+    var youtubeBlocked = {{youtubeBlocked|yesno:"true,false"}};
+    var showBubble = false;
+    var showShareBubble = false;
+    var isYoutubeCheckDone = false; //for the first youtube video that's loaded, we will check if youtube can be accessed
+    var hasVoted = false;
+    var queueShareNotify = false;
+    var stumbleCount = 0;
+    var currentInterestsBtn = "#interests-btn-desktop";
+    var onMobile = false;
+    var enterAnim = 'animated flipInY';
+    var exitAnim = 'animated rollOut';
+
+    // "Did you know?" info popovers. Each var is a boolean signifying whether this popover has yet been shown
+    var popoverInterests = false;
+    var popoverLikes = false;
+    var popoverFB = false;
+    // for this one, true means that it's been seen and destroyed
+    var popoverStumble = false;
+
+    var users_start_time = {{score}}; // WHAT ARE THESE 2 VARS FOR?
+    var users_time = {{score}};
+
+    // new_score is the current score. old_score is the score right before the score update.
+    // they are normally equivalent, except when passing through userScoreUpdate() --> scoreAchievementsCheck()
+    // the first function changes new_score, and then the second sets old_score to this value.
+    var new_score = {{score}};
+    var old_score = new_score;
+
+    console.log("new_score is: " + new_score);
+    
+ /*   window.setInterval(function(){
+        if (users_time < users_start_time + 10) 
+        {
+            users_time += 5;
+            $.ajax({
+            type: 'POST',
+            url: '/update-score/',
+            success: function (data) {            
+               $('#deenscore').html(users_time);
+            },
+            error: function(data) {
+            alert('error');
+            }
+
+            });
+        } else {
+               $('#deenscore').html('<em><strong>' + users_time + '</strong></em>');            
+        }
+    }, 5000);
+*/
+    </script>
+
+    <style>
+
+.twitter-tweet {
+    height: 2000px !important;
+}
+
+.EmbeddedTweet {
+  border: #ddd 0px solid !important;
+}
+ 
+
+    html { overflow-y: hidden; }
+    .navbar-collapse.collapse {
+    display: block!important;
+    }
+
+    .navbar-nav>li, .navbar-nav {
+    float: left !important;
+    }
+
+    .navbar-nav.navbar-right:last-child {
+    margin-right: -15px !important;
+    }
+
+    .navbar-right {
+    float: right!important;
+    }
+    </style>
+
+    <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-52040224-2', 'auto');
+  ga('send', 'pageview');
+
+</script>
+</head>
+
+<body>
+
+    <div id="wrapper" style="padding-left:0px !important">
+
+        <!-- Navigation -->
+        <nav class="navbar navbar-inverse navbar-fixed-top browse-navbar" role="navigation" style="border:none">
+            <!-- Brand and toggle get grouped for better mobile display -->
+                     <div class="navbar-header">
+                <a class="navbar-brand page-scroll browse-brand" id="logo" href="#"><span class="hidden-xs"><span style="color:#a3ef9c; font-weight:lighter">Deen</span><b>Trek</b></span><span class="visible-xs"><span style="color:#a3ef9c; font-weight:lighter">D</span>T</span></a>
+            </div>
+
+                    
+
+              
+
+            <!-- Center Menu Items -->
+            
+            <div class="center-nav" >
+                
+                <ul style="list-style: none;">
+
+                    
+
+
+<!--                     <li class="stumble-group hidden-sm hidden-xs">
+                        <a id="back-btn" class="btn btn-primary btn-xl stumble-button back-button green" href="javascript:BackButton()" >
+                            <i class="fa fa-arrow-left"></i>
+                        </a>
+                    </li>
+ -->
+                     
+<style>
+@media(max-width:1024px) {
+.bottom-right-mobile{
+    position: fixed;
+    left: 10px;
+    bottom: 30px;
+    transition: 0.5s;
+}
+
+.bottom-bottom-right-mobile{
+    position: fixed;
+    left: 10px;
+    bottom: 70px;
+    transition: 0.5s;
+}
+}
+</style>
+                    <li class="stumble-group bottom-right-mobile hidden-1030" id="prev-label">
+                        <a class="btn btn-primary btn-xl stumble-button prev-label grey" id="prev-label-a" href="javascript:BackButton()" style="max-width:200px">
+                            <p class="upnext-label-text">Back <i class="fa fa-angle-double-left"></i> <span id="prev-title" style="color:#F2F4F3"></span></p>
+                        </a>
+                    </li>
+
+<!--                     <li class="stumble-group">
+                        {% if person_name == "NOT_AUTH" %}
+                        <a class="btn btn-primary btn-xl stumble-button green" href="javascript:loginNotify()" >
+                        {%else%}
+                        <a ID="downvote-button" data-id="1" class="btn btn-primary btn-xl stumble-button green" href="javascript:void(0)" >
+                        {%endif%}
+                            <i class="fa fa-thumbs-down"></i>
+                        </a>
+                    </li>
+ -->
+    
+<!--                     <li class="hidden-xs pull-right">
+ -->                    
+
+                     <!-- We will have interests-mobile, downvote and interests-desktop. We will display a subset of these using jquery depending on the window size
+                    So that the interests button replaces the downvote button for mobile -->
+
+                    <li class="stumble-group interests-mobile">
+                        <a id="interests-btn-mobile" data-toggle="popover" data-html="true" data-placement="bottom" data-title="Choose Interests" data-content="What do you want to see?" class="btn btn-primary btn-xl interests-button green" href="javascript:void(0)" >
+                            <p class="interests-btn-text"><i class="fa fa-sliders fa-lg"></i> <span class="hidden-xs"> &nbsp;Show Me...</span></p>
+                        </a>
+                    </li>
+
+                    <li class="stumble-group downvote">
+                        {% if person_name == "NOT_AUTH" %}
+                        <a class="btn btn-primary btn-xl stumble-button green" href="javascript:loginNotify()" >
+                        {%else%}
+                        <a ID="downvote-button" data-id="1" class="btn btn-primary btn-xl stumble-button green" href="javascript:void(0)" >
+                        {%endif%}
+                            <i class="fa fa-thumbs-down"></i>
+                        </a>
+                    </li>
+
+                    <li class="stumble-group" id="main-button">
+                        <a ID="stumble-click" class="btn btn-primary btn-xl stumble-button green" href="javascript:void(0)" data-toggle="popover" data-html="true" data-placement="bottom" data-title="Let's Go!" data-content="Click here to start trekking!" >
+                            <p class="stumble-btn-text"><i class="fa fa-refresh"></i><span class="hidden-sm hidden-xs">&nbsp; Next</span></p>
+                        </a>
+                    </li>
+
+                    <li class="stumble-group">
+                        {% if person_name == "NOT_AUTH" %}
+                        <a ID="upvote-button-not-auth" class="btn btn-primary btn-xl stumble-button green" href="javascript:loginNotify()" data-toggle="popover" data-html="true" data-placement="bottom" data-title="Like What You See?" data-content="Give a thumbs up to improve recommendations!<br>(No login required)" >
+                        {%else%}
+                        <a ID="upvote-button" data-id="1" class="btn btn-primary btn-xl stumble-button green" href="javascript:void(0)" data-toggle="popover" data-html="true" data-placement="bottom" data-title="Like What You See?" data-content="Give a thumbs up to improve recommendations!" >
+                        {%endif%}
+                            <i class="fa fa-thumbs-up"></i>
+                        </a>
+
+                    </li>
+
+                    <li class="stumble-group bottom-bottom-right-mobile" id="score-label">
+                        <a data-toggle="tooltip" data-placement="bottom" 
+                        title="<span class='tooltip-title'>Your score</span><br><br>
+                        <ul class='score-list'>
+                            <li>+5 for each Trek</li>
+                            <li>+10 for each Upvote</li>
+                            <li>+50 for each Share</li>
+                        </ul> <br><span class='tooltip-title'>Login to save</span>" 
+                        class="btn btn-primary btn-xl stumble-button score-label grey" href="javascript:void()" >
+                            <p class="upnext-label-text"><span>Score: </span><span id="deenscore" style="color:#F2F4F3">{{score}}</span></p>
+                        </a>
+                    </li>
+<style>
+.bottom-left{
+    position:fixed;
+    bottom:5px;
+    left:10px;
+}
+.bottom-left-up{
+    position:fixed;
+    bottom:5px;
+    left:280px;
+}
+</style>
+            
+
+                    {% if person_name == "NOT_AUTH" %}
+                    <li class="pull-right">
+                       <a class="btn btn-primary btn-xl page-scroll google-button green" href="/login/google-oauth2/" >
+                            <p class="google-btn-text"><i class="fa fa-google google-icon"></i><span class="hidden-xs">Sign in</span><span id="with-google" class="hidden-sm hidden-xs"> with Google</span></p>
+                        </a>
+                    </li>
+
+                    {% else %}
+                    <li class="pull-right">
+                       <a class="btn btn-primary btn-xl stumble-button logout green" href="/profile/" >
+                            <p class="google-btn-text"><i class="fa fa-user"></i><span class="hidden-xs"><span class="hidden-sm hidden-xs"> <span class="hidden-md hidden-sm hidden-xs">{{ person_name }}</span></span></p>
+                        </a>
+                    </li>
+                    {% endif %}
+
+
+
+                    <li class="pull-right" id="thanks" style="display:none">
+                       <a class="btn btn-primary btn-xl thanks-button green" href="#" >
+                            <p class="google-btn-text"><i class="fa fa-check"></i> Thank you</p>
+                        </a>
+                    </li>
+
+                    <li class="fbli pull-right form-group hidden-sm hidden-xs"  style="display:none">
+                        <div class="form-group">
+                            <textarea class="form-control feedback" id="a" rows="1" placeholder="Your feedback..." style="font-family:'ClearSans'; text-transform: initial !important; "></textarea>
+                        </div>
+                        <div id="b" class="form-group">
+                            <button class="form-control send-btn">Send!</button>
+                        </div>
+
+                    </li>
+
+                    <li class="pull-right" id="thanks-broken" style="display:none">
+                       <a class="btn btn-primary btn-xl thanks-button" href="#" >
+                            <p class="google-btn-text"><i class="fa fa-check"></i> Thank you</p>
+                        </a>
+                    </li>
+
+                    <li class="pull-right hidden-sm hidden-xs" id="report-broken" style="display:none">
+                       <a class="btn btn-primary btn-xl page-scroll google-button green" >
+                            <p class="google-btn-text"><i class="fa fa-chain-broken broken-icon"></i><span class="hidden-md hidden-sm hidden-xs">Report Link</span></p>
+                        </a>
+                    </li>
+
+                    <li class="pull-right hidden-xs" id="share">
+                       <a class="btn btn-primary btn-xl page-scroll google-button green" >
+                            <p class="share-btn-text"><i class="fa fa-share-alt share-icon"></i></p>
+                        </a>
+                    </li>
+
+                    <li class="hidden-xs pull-right interests-desktop">
+                        <a id="interests-btn-desktop" data-toggle="popover" data-html="true" data-placement="bottom" data-title="Choose Your Interests" data-content="You can pick what you want to see!" class="btn btn-primary btn-xl interests-button green" href="javascript:void(0)" >
+                            <p class="interests-btn-text"><i class="fa fa-sliders fa-lg"></i> &nbsp;Show Me...</p>
+                        </a>
+                    </li>
+
+                    <li class="pull-right hidden-xs">
+                       <a href="http://www.facebook.com/DeenTrek" target="_blank" class="btn btn-primary btn-xl page-scroll google-button green-alt" id="fblike" onclick="pointsForLike()" data-toggle="popover" data-html="true" data-placement="bottom" data-title="Like us on Facebook?" data-content="<center>Help spread the word!<br>(Opens in new tab)</center>" >
+                            <i class="fa fa-facebook share-icon" style="font-size:20px"></i>
+                        </a>
+                    </li>
+
+
+                </ul>
+            </div>
+            <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
+        </nav>
+
+        <style>
+        #loadingBar{
+                position: absolute;
+                top:150px;
+                left: 0;
+                margin: auto;
+        }
+        </style>
+
+
+    <div id="loadingBar" style="text-align:center; left:40%;; top: 40%;">
+
+    <img src="{%static 'img/orange-loader.gif'%}" style="width:100%;">
+    </div>
+    <div class="load-panel" id="lp" >
+
+    </div>
+    <div class="load-panel2" >
+    </div>
+     
+
+
+
+    <style>
+    @media(max-width:767px) {
+    .load-panel {
+        margin-top:-50px;
+    }
+    .load-panel2 {
+        margin-top:-50px;
+    }
+    }
+    .load-panel {
+    position: relative;  
+    height:600px;
+    padding-bottom: 0px; /* 16:9 */
+    /*padding-top: 55px;*/
+    /*height: 0;*/
+    }
+    .load-panel2 {
+    position: relative;
+    height:600px;
+    padding-bottom: 0px; /* 16:9 */
+    /*padding-top: 55px;*/
+    /*height: 0;*/
+    }
+    .load-panel iframe {
+        position: absolute;
+        top: 0px;
+        left: 0;
+        width: 100%;
+        height: 100%;
+    }
+    .load-panel2 iframe {
+        position: absolute;
+        top: 0px;
+        left: 0;
+        width: 100%;
+        height: 100%;
+    }
+
+    </style>        
+
+    </div>
+    <!-- /#wrapper -->
+
+
+    <li id="upnext-label" class="bottom-center" style="display: inline-block">
+
+</li>
+
+
+
+                    <div class="bubble" id="bubble" >
+                    <div class="bubble-title">
+                        <h4 id="interests-title"><center><br>What would you like to see?</center></h4>
+                    </div>
+                     <!--   <hr class="bubble-hr"> -->
+                        <ul class="text-right bubble-list">
+                            <li class="interests-options" style="padding-right:50px">
+                                YouTube &nbsp;<input data-on-text="YES" data-off-text="NO" data-on-color="success" data-off-color="danger" type="checkbox" id="youtube-checkbox" {%if showYoutube%}checked{%endif%}>
+                            </li>
+
+                            <li class="interests-options" style="padding-right:50px">
+                                Articles &nbsp;<input data-on-text="YES" data-off-text="NO" data-on-color="success" data-off-color="danger" type="checkbox" id="articles-checkbox" {%if showArticles%}checked{%endif%}>
+                            </li>
+
+                            <li class="interests-options" style="padding-right:50px">
+                                Quran &nbsp;<input data-on-text="YES" data-off-text="NO" data-on-color="success" data-off-color="danger" type="checkbox" id="quran-checkbox" {%if showQuran%}checked{%endif%}>
+                            </li>
+
+                            <li class="interests-options" style="padding-right:50px">
+                                Sunnah &nbsp;<input data-on-text="YES" data-off-text="NO" data-on-color="success" data-off-color="danger" type="checkbox" id="sunnah-checkbox" {%if showSunnah%}checked{%endif%}>
+                            </li>
+
+                            <li class="interests-options" style="padding-right:50px">
+                                Poetry &nbsp;<input data-on-text="YES" data-off-text="NO" data-on-color="success" data-off-color="danger" type="checkbox" id="poetry-checkbox" {%if showPoetry%}checked{%endif%}>
+                            </li>
+
+                            <li class="interests-options" style="padding-right:50px">
+                                Quizzes &nbsp;<input data-on-text="YES" data-off-text="NO" data-on-color="success" data-off-color="danger" type="checkbox" id="quiz-checkbox" {%if showQuizzes%}checked{%endif%}>
+                            </li>
+
+                            <li class="interests-options" style="padding-right:50px">
+                                Tweets &nbsp;<input data-on-text="YES" data-off-text="NO" data-on-color="success" data-off-color="danger" type="checkbox" id="tweet-checkbox" {%if showTweets%}checked{%endif%}>
+                            </li>
+                        </ul>
+                            <hr class="bubble-hr">
+                        <ul class="text-right bubble-list">
+                            <li class="interests-options">
+                                Is YouTube Blocked? &nbsp;<input data-on-text="YES" data-off-text="NO" data-on-color="success" data-off-color="danger" type="checkbox" id="blocked-checkbox" {%if youtubeBlocked%}checked{%endif%}>
+                            </li>
+
+                        </ul>
+                    </div>
+
+                    <div class="bubble hidden-xs" id="share-bubble" >
+                        <div class="share-bubble-title">
+                            <center><h4 id="share-bubble-text" style="position: relative; top:25px">Share</h4></center>
+                        </div>
+                        <ul class="share-list">
+                            <li class="share-group">
+                                <a href="#" name="Facebook" class="btn share-btns" id="share-fb" target="new_page"><i class="fa fa-facebook"></i></a>
+                            </li>
+
+                            <li class="share-group">
+                                <a href="#" name="Twitter" class="btn share-btns" id="share-twitter" target="new_page"><i class="fa fa-twitter"></i></a>
+                            </li>
+
+                            <li class="share-group">
+                                <a href="#" name="Google+" class="btn share-btns" id="share-google" target="new_page"><i class="fa fa-google-plus"></i></a>
+                            </li>
+
+                            <li class="share-group">
+                                <a href="#" name="Pinterest" class="btn share-btns" id="share-pinterest" target="new_page"><i class="fa fa-pinterest-p"></i></a>
+                            </li>
+
+                            <li class="share-group">
+                                <a href="#" name="Email" class="btn share-btns" id="share-email" target="new_page"><i class="fa fa-envelope"></i></a>
+                            </li> 
+
+                            <li class="share-group">
+                                <a href="javascript:ClipBoard()" name="Copy Link" class="btn share-btns" id="share-copy" target="new_page"><i class="fa fa-file-text-o"></i></a>
+                            </li>                      
+                        </ul>    
+                        <hr class="bubble-hr" style="margin-bottom:10px">                 
+                        <center><h5 id="share-bubble-current-text"><span id="share-selection-label"></span></h5></center>
+                    </div>
+
+
+{%include 'js.html'%}
+
+
+
+
+<script>
+
+
+
+
+//---------------//
+// Facebook Like //
+//---------------//
+
+function pointsForLike() {
+    console.log("CLICK DETECTED")   
+    queueShareNotify = true;
+    userScoreUpdate('share'); 
+    $('#fblike').removeClass('animated bounceIn');
+}
+
+//---------------------------------------------//
+// DESKTOP/MOBILE BUTTONS CONFIGURATION SWITCH //
+//---------------------------------------------//
+
+// This function displays either the desktop version (downvote + settings on side)
+// or mobile version (downvote replaced with settings) based on window width
+
+function responsiveButtons() {
+
+    if (window.innerWidth < 1024) {
+        //mobile
+        $('.interests-desktop').css('display', 'none');
+        $('.downvote').css('display', 'none');
+        $('.interests-mobile').css('display', 'inline');
+        currentInterestsBtn = "#interests-btn-mobile";
+        onMobile = true;
+    }
+    else
+    {
+        //desktop
+        $('.interests-desktop').css('display', 'list-item');
+        $('.downvote').css('display', 'inline');
+        $('.interests-mobile').css('display', 'none');
+        currentInterestsBtn = "#interests-btn-desktop";
+        onMobile = false;
+    }
+    setInterestsBubbleLeft();
+    setNotificationAnimations();
+}
+
+
+//-----------------------//
+// DID YOU KNOW POPOVERS //
+//-----------------------//
+
+// this function is called whenever something that MIGHT trigger a popover occurs.
+// It then checks if the popover should be shown, and sets up a timer for it
+
+function popoverCheck() {
+
+    if (stumbleCount>=7 && (!popoverInterests) ) {
+        $(currentInterestsBtn).popover('show');
+        popoverInterests = true;
+        setTimeout(function() {
+            $(currentInterestsBtn).popover('destroy');
+        }, 3500);
+    }
+
+    if (stumbleCount>=14 && (!popoverLikes) ) {
+        $('#upvote-button').popover('show');
+        $('#upvote-button-not-auth').popover('show');
+        popoverLikes = true;
+        setTimeout(function() {
+            $('#upvote-button').popover('destroy');
+            $('#upvote-button-not-auth').popover('destroy');
+        }, 3500);
+    }
+
+    if (!popoverStumble) { // the first popover is still being displayed
+        $('#stumble-click').popover('destroy');
+        popoverStumble=true;
+    }
+
+    if (stumbleCount>=23 && (!popoverFB) && (window.innerWidth>=1130) ) {
+
+        $('#fblike').addClass('animated bounceIn');
+        popoverFB=true;
+        setTimeout(function() {
+            $('#fblike').popover('show');
+        }, 600);
+
+        
+        setTimeout(function() {
+            $('#fblike').popover('destroy');
+        }, 4000);
+    }
+
+}
+
+// This function is called 5 seconds after loading the page (by hideLoader())
+// If the user has still not clicked Next, we will show the Popover
+function showStumblePopover() {
+    if (stumbleCount<1) {
+        $('#stumble-click').popover('show');
+    }
+}
+
+
+// Initialize tooltips
+
+$(function () {
+  $('[data-toggle="tooltip"]').tooltip({html:true});
+})
+
+//---------------//
+// NOTIFICATIONS //
+//---------------//
+
+function dimMobileLabels(duration) {
+    // if on mobile, make the labels invisible
+    console.log("got to dim");
+    if (window.innerWidth < 1024) {
+        $('.bottom-bottom-right-mobile').css('opacity', '0');
+        $('.bottom-right-mobile').css('opacity', '0');
+        //bring them back
+    setTimeout(function() {
+        $('.bottom-bottom-right-mobile').css('opacity', '1');
+        $('.bottom-right-mobile').css('opacity', '1');
+        }, (duration+1500));
+    }
+}
+
+function dimMobileLabelsIndefinitely() {
+    if (onMobile) {
+        $('.bottom-bottom-right-mobile').css('opacity', '0');
+        $('.bottom-right-mobile').css('opacity', '0');
+    }
+}
+
+function showMobileLabelsIndefinitely() {
+    if (onMobile) {
+        $('.bottom-bottom-right-mobile').css('opacity', '1');
+        $('.bottom-right-mobile').css('opacity', '1');
+    }
+}
+
+function achievementNotify(msg) {
+    $.notify({
+            icon: "fa fa-star",
+            message: msg 
+        },{
+            type: 'success',
+            placement: {
+                from: 'bottom',
+                align: 'right'
+            },
+            animate: {
+                enter: enterAnim,
+                exit: exitAnim
+            },
+            delay: 3500,
+            allow_dismiss: true
+        });
+    dimMobileLabels(3500);
+}
+
+function loginNotify() {
+    
+    if (hasVoted==false) {
+        userScoreUpdate('vote');
+        myNotify('+10 points!', 'fa-thumbs-up');
+    }
+    hasVoted = true;
+
+    $.notify({
+            icon: "fa fa-info-circle",
+            message: "If you log in, we can remember your likes for next time!" 
+        },{
+            type: 'info',
+            placement: {
+                from: 'bottom',
+                align: 'right'
+            },
+            animate: {
+                enter: enterAnim,
+                exit: exitAnim
+            },
+            delay: 3999,
+            allow_dismiss: true
+        });
+    dimMobileLabels(3999);
+}
+
+function myNotify(msg, ico) {
+    $.notify({
+            icon: 'fa '+ico,
+            message: msg 
+        },{
+            type: 'success',
+            placement: {
+                from: 'bottom',
+                align: 'right'
+            },
+            animate: {
+                enter: enterAnim,
+                exit: exitAnim
+            },
+            delay: 1500,
+            allow_dismiss: false
+
+        });
+    dimMobileLabels(1500);
+}
+
+function myNotifyNoIcon(msg) {
+    $.notify({
+            message: msg 
+        },{
+            type: 'success',
+            placement: {
+                from: 'bottom',
+                align: 'right'
+            },
+            animate: {
+                enter: enterAnim,
+                exit: exitAnim
+            },
+            delay: 1500,
+            allow_dismiss: false
+
+        });
+    dimMobileLabels(1500);
+}
+
+// we queue notifications on SHARE because the user will be shifted to another tab on pressing share
+$(window).focus(function() {
+    if (queueShareNotify) {
+        console.log("has focus");
+        myNotify('50 points to Gryffindor!', 'fa-share');
+        queueShareNotify = false;
+    }
+}).blur(function() {
+    console.log("no focus");
+});
+
+// we set mobile animations to be just slides rather than fancy 3d transforms
+function setNotificationAnimations() {
+    if (onMobile) {
+        enterAnim = "animated bounceInUp";
+        exitAnim = "animated slideOutRight";
+    }
+}
+
+//---------//
+// SCORING //
+//---------//
+
+
+// call this function with some set actions
+// i.e. "stumble", "vote", "interestChosen", etc. stuff that you can give points for
+// and the ajax script will:
+// 1. Update the user's stored score in Django
+// 2. Show this score onscreen
+
+function userScoreUpdate(action) {
+    $.ajax({
+    type: 'POST',
+    url: '/update-score/',
+    data: {
+        'action' : action
+    },
+    success: function(data) {
+        var json = JSON.parse(data);
+        scoreData = json["newScore"];
+
+        //if not logged in, just add to the old score
+        if (scoreData=="NOT_AUTH"){ 
+            new_score = new_score + parseInt(json["deltaScore"]);
+            $('#deenscore').html(new_score);
+        }
+
+        //if he is logged in, keep the absolute score in accordance with the database
+        else {
+            new_score = parseInt(scoreData); //get the new user score as an integer
+            console.log("new score is " + json["newScore"]);
+            $('#deenscore').html(new_score);
+        }
+
+        scoreAchievementsCheck();
+    },
+    error: function(data) {
+        // alert('update score error: ' + data);
+    }
+
+   });
+}
+
+
+//we will check for achievements based on which milestone has been crossed
+function scoreAchievementsCheck() {
+
+    if (old_score<100 && new_score>=100) { achievementNotify("Milestone Achieved: 100 points!");}
+    if (old_score<500 && new_score>=500) { achievementNotify("Milestone Achieved: 500 points!");}
+    if (old_score<1000 && new_score>=1000) { achievementNotify("Milestone Achieved: 1000 points!");}
+    if (old_score<2000 && new_score>=2000) { achievementNotify("Milestone Achieved: 2000 points!");}
+    if (old_score<5000 && new_score>=5000) { achievementNotify("Milestone Achieved: 5000 points!");}
+    if (old_score<10000 && new_score>=10000) { achievementNotify("Milestone Achieved: 10000 points!");}
+
+    console.log("old score was " + old_score + " and new_score is " + new_score);
+
+    old_score = new_score;
+
+}
+
+
+//---------//
+// HISTORY //
+//---------//
+
+// This will work by having an array and a pointer variable
+// The array has all the links visited so far + 1 preloaded link
+// The pointer will give you the current position
+// If at any time the user has gone back, the future pages are kept in the array
+// But when they press stumble, you jump directly to the end of the array i.e. to the preloaded link
+
+var myHistory = []; //empty array
+var myHistoryTitles = []; //empty array
+//var history = new Array();
+var historyPointer = 0; //start at point 0, and is an integer
+
+//var myArray =["http://www.faithtry.com:8000"];
+
+function addToHistory(link, title) { //appends a link to the myHistory array
+    console.log("addToHistory called");
+    // history.push(link);
+    myHistory.push(link);
+    myHistoryTitles.push(title);
+
+    console.log(myHistory.length);
+    console.log(myHistoryTitles);
+
+    //whenever we add something to history, we should also update the upnext label
+/*    updateUpNextLabel();
+    updateNowLabel();
+    updatePrevLabel();*/
+}
+
+
+
+function getCurrentUrl() { //should return where you are currently i.e. replace dispUrl with this
+    return myHistory[historyPointer];
+}
+
+function getCurrentTitle() { //should return the title for where you are currently
+    return myHistoryTitles[historyPointer];
+}
+
+function getUpNextTitle() { //should return the title for where you are headed to currently
+    return myHistoryTitles[myHistory.length-1];
+}
+
+function getPrevTitle() { //should return the title for where you are headed to currently
+    return myHistoryTitles[historyPointer-1];
+}
+
+function echoPointer() { //just tells you where you are in the history array :)
+    console.log("Currently pointing to index(" + historyPointer + ") = " + getCurrentUrl() );
+}
+
+function goForward() {
+    console.log("goForward called");
+    historyPointer = historyPointer + 1;
+    updateNowLabel();
+    updatePrevLabel();
+    echoPointer();
+}
+
+function goBack() {
+    console.log("goBack called");
+    historyPointer = historyPointer - 1;
+    updateNowLabel();
+    updatePrevLabel();
+    echoPointer();
+}
+
+function goToEnd() {
+    console.log("goToEnd called");
+    historyPointer = myHistory.length - 1; //check for 0,1 issue (checked)
+    updateNowLabel();
+    updatePrevLabel();
+    echoPointer();
+}
+
+function goToSecondLast() {
+    console.log("goToSecondLast called");
+    historyPointer = myHistory.length - 2;
+    updateNowLabel();
+    updatePrevLabel();
+    echoPointer();
+}
+
+//when originalLoad() is called, we delete the most recent preload, and we replace that with a new page, as well as preload another page
+//so we need a deleteLastEntry function
+
+function deleteLastEntry() {
+    console.log("deleteLastEntry called");
+    myHistory.pop();
+}
+
+// when the back button is pressed, we go back by 1 in the history pointer and load up that url in
+// the panel that does NOT have the pre-loaded link (i.e. the one you would go to on pressing "Next")
+// we faced an error here where we would override the stored link and so the "Next" button wouldn't work
+
+function BackButton() {
+    goBack();
+    var urlToDisplay = getCurrentUrl();
+    
+    $("#downvote-button").addClass('green');
+    $("#downvote-button").removeClass('stumble-button-red');    
+    $("#upvote-button").addClass('green');
+    $("#upvote-button").removeClass('stumble-button-green');
+
+    //reset "report broken link" button
+    $("#thanks-broken").css("display", "float");                
+    $("#report-broken").css("opacity", "1");
+    $("#report-broken").css("width", "initial");
+    $("#report-broken").css("height", "initial");
+    $("#thanks-broken").css("width", "0");
+    $("#thanks-broken").css("opacity", "0"); 
+
+    console.log('back function')
+    dispUrl = urlToDisplay;
+    reloadShareHrefs();
+
+    //if frame 1 has the pre-loaded link, use frame 2 for history and vice versa
+    if (use_frame==1) {
+        $('.load-panel').css('display', 'none');
+        $('.load-panel2').css('display', 'block');
+        if (urlToDisplay.indexOf('youtube.com') > -1) {
+            $('.load-panel2').html('<iframe width="200" onLoad="hideLoader()" height="200" src="'+urlToDisplay+'"/>');
+            $(".load-panel2").css('background-color','#222');
+            $(".load-panel2").css('background-image','none');
+            } 
+            else if (myurl.indexOf('twitter.com') > -1) {
+                $.getJSON( "https://api.twitter.com/1/statuses/oembed.json?url=" + myurl + "&callback=?", function( data ) {
+                    var th = data["html"]
+                    $('.load-panel2').html('<center>' + th + '</center>');
+                    $(".load-panel2").css('background-image','url(../static/img/twitter-bg.png)');
+                    $(".load-panel2").css('background-color','#C0DEED');
+                });                
+            }
+        else {
+            $('.load-panel2').html('<iframe width="100%" onLoad="hideLoader()" src="'+urlToDisplay+'"/>');
+                    $(".load-panel2").css('background-image','none');
+                    $(".load-panel2").css('background-color','white');            
+        } 
+    }
+    else {
+        $('.load-panel2').css('display', 'none');
+        $('.load-panel').css('display', 'block');
+
+        if (urlToDisplay.indexOf('youtube.com') > -1) {
+            $('.load-panel').html('<iframe width="200" onLoad="hideLoader()" height="200" src="'+urlToDisplay+'"/>');
+            $(".load-panel").css('background-color','#222');
+            $(".load-panel").css('background-image','none');
+        } 
+        else if (urlToDisplay.indexOf('twitter.com') > -1) {
+                $('.load-panel').html('<iframe width="380" onLoad="hideLoader()" height="200" style="border:none;margin-left:calc(50% - 250px)" src=http://twitframe.com/show?url="'+myurl+'"/>');
+                $(".load-panel").css('background-image','url(../static/img/twitter-bg.png)');
+                $(".load-panel").css('background-color','#C0DEED');
+       }
+        else {
+            $('.load-panel').html('<iframe width="100%" onLoad="hideLoader()" src="'+urlToDisplay+'"/>');
+            $(".load-panel").css('background-image','none');
+            $(".load-panel").css('background-color','white');            
+
+        }  
+    }  
+}
+
+//--------//
+// LABELS //
+//--------//
+
+function updateUpNextLabel() {
+    $("#upnext-title").text(getUpNextTitle());
+}
+
+function updateNowLabel() {
+    
+}
+
+function updatePrevLabel() {
+    console.log("updatePrevLabel called");
+    $("#prev-title").text(getPrevTitle());
+    console.log("prevLavel updated to index (" + (historyPointer-1) + ")");
+}
+
+
+//--------//
+// RESIZE //
+//--------//
+
+$(document).ready(function() {
+
+    var shareBubbleCorrectTopOffset = ($("#share").offset().top + $("#share").height() + off).toString() + "px";
+
+    responsiveButtons();
+
+    setInterestsBubbleLeft();
+    setShareBubbleLeft();
+
+    initializeSwitches();
+
+    $('.green').removeClass('.btn-primary:focus');
+    $('.green').removeClass('.btn:focus');
+    $('.green').removeClass('.btn-xl:focus');
+
+    
+    // Optimalisation: Store the references outside the event handler:
+    var $window = $(window);
+    var $pane = $('#pane1');
+    var feedbackWidth = $(".fbli").css('width');
+    var stumbleGroupLeftOffset = $(".stumble-group").css('left');
+
+    function checkWidth() {
+        var windowsize = $window.width();
+
+        if (windowsize<1130) {
+            $('#fblike').css('display','none');
+        }
+        else
+        {
+            $('#fblike').css('display','list-item');
+        }
+
+        responsiveButtons();
+        setInterestsBubbleLeft();
+        setShareBubbleLeft();
+
+        console.log('checking width');
+        //navbar animation had a bug. we fix it by controlling the animation via jquery rather than css
+        if (windowsize<1024) {
+            //for small screens, just make the navbar appear instantly
+            console.log('small screen');
+            $('.browse-navbar').css('opacity','1');
+        }
+        else {
+            // for big screens, animate
+            console.log('big screen');
+            $('.browse-navbar').css('animation','navbar-slide');
+            $('.browse-navbar').css('animation-duration','2s');
+            $('.browse-navbar').css('animation-fill-mode','forward');
+            $('.browse-navbar').css('opacity','1');
+        }
+
+        //sign in "with google" text
+        if (windowsize < 1300) {
+            $("#with-google").text('');
+        }
+        else {
+            $("#with-google").text(' with Google');
+        }
+
+        //feedback textbox disappears
+        if (windowsize < 1230) {
+            $("#a").css('opacity', "0");
+            $("#b").css('opacity', "0");
+            $(".fbli").css('width', "0px");
+        }
+        else {
+            $("#a").css('opacity', "1");
+            $(".fbli").css('width', "auto");
+        }
+
+        //let's trek button centered
+        if (windowsize < 991) {
+            $(".stumble-group").css('left', "0px");            
+        }
+        else {
+            $(".stumble-group").css('left', stumbleGroupLeftOffset);
+        }
+    }
+    // Execute on load
+    checkWidth();
+    // Bind event listener
+    $(window).resize(checkWidth);
+});
+
+function initializeSwitches() {
+    $("#youtube-checkbox").bootstrapSwitch();
+    $("#articles-checkbox").bootstrapSwitch();
+    $("#quran-checkbox").bootstrapSwitch();
+    $("#sunnah-checkbox").bootstrapSwitch();
+    $("#poetry-checkbox").bootstrapSwitch();
+    $("#quiz-checkbox").bootstrapSwitch();
+    $("#blocked-checkbox").bootstrapSwitch();
+    $("#tweet-checkbox").bootstrapSwitch();
+}
+
+
+var nextId = 0;
+var currId = 0;
+$("#bubble").css("opacity", "0");
+
+function hideLoader(){
+    $('#loadingBar').css('display','none');
+    setInterestsBubbleLeft();
+    setShareBubbleLeft();
+    setTimeout(function() {
+            showStumblePopover();
+        }, 5000);
+
+    
+}
+
+function originalLoad() {
+        console.log('0');
+
+        $('.prev-label').css('opacity','0');
+
+        $('.load-panel2').css('height', (window.innerHeight - 50).toString() + "px");
+        $('.load-panel').css('height', (window.innerHeight - 50).toString() + "px");
+
+        $('.load-panel2').css('display', 'none');
+        $('.load-panel').css('display', 'block');
+        $.ajax({
+        type: 'POST',
+        data: {
+            'showYoutube' : showYoutube,
+            'showArticles': showArticles,
+            'showQuran': showQuran,
+            'showSunnah': showSunnah,
+            'showPoetry': showPoetry,
+            'showQuizzes': showQuizzes,
+            'showTweets': showTweets,
+            'youtubeBlocked' : youtubeBlocked
+        },
+        url: '/next/{{page_id}}/',
+        success: function (data) {
+            var json = JSON.parse(data);
+            myurl = json["myurl"];
+            myTitle = json["myTitle"];
+            if (myurl.indexOf('youtube.com') > -1)
+            {
+            $('.load-panel').html('<iframe width="200" height="100" onLoad="hideLoader()" src="'+myurl+'"/>');
+            $(".load-panel").css('background-color','#222');
+            $(".load-panel").css('background-image','none');
+            } 
+            else if (myurl.indexOf('twitter.com') > -1) {
+                $.getJSON( "https://api.twitter.com/1/statuses/oembed.json?url=" + myurl + "&callback=?", function( data ) {
+                    var th = data["html"]
+                    hideLoader();
+                    $('.load-panel').html('<center>' + th + '</center>');
+                    $(".load-panel").css('background-image','url(../static/img/twitter-bg.png)');
+                    $(".load-panel").css('background-color','#C0DEED');
+                });                
+            }
+            else {
+            $('.load-panel').html('<iframe width="100%" onLoad="hideLoader()" src="'+json["myurl"]+'"/>');
+            $(".load-panel").css('background-image','none');
+            $(".load-panel").css('background-color','white');            
+
+            }
+            currId = json["link_id"];
+
+          /*  if (historyPointer>0) {
+                //this is the one currently shown
+                deleteLastEntry(); //delete the previously preloaded page. if empty history, nothing happens
+                goForward();
+            }*/
+            console.log("original load's 1st url is " + myurl);
+            addToHistory(myurl, myTitle); 
+            originalPreload()
+        },
+        error: function(data) {
+        // alert('error');
+        }
+    });
+
+
+}
+
+//this preloads the 2nd website. Called only after the first one has fully loaded
+function originalPreload() {
+    $.ajax({
+    type: 'POST',
+    data: {
+        'showYoutube' : showYoutube,
+        'showArticles': showArticles,
+        'showQuran': showQuran,
+        'showSunnah': showSunnah,
+        'showPoetry': showPoetry,
+        'showQuizzes': showQuizzes,
+        'showTweets': showTweets,
+        'youtubeBlocked' : youtubeBlocked
+    },
+    url: '/next/',
+    success: function (data) {
+        var json = JSON.parse(data);
+        myurl = json["myurl"];
+        myTitle = json["myTitle"];
+        if (myurl.indexOf('youtube.com') > -1)
+        {
+        $('.load-panel2').html('<iframe width="200" onLoad="hideLoader()" height="200" src="'+json["myurl"]+'"/>');
+        $(".load-panel2").css('background-color','#222');
+        $(".load-panel2").css('background-image','none');
+        } 
+        else if (myurl.indexOf('twitter.com') > -1) {
+            $.getJSON( "https://api.twitter.com/1/statuses/oembed.json?url=" + myurl + "&callback=?", function( data ) {
+                var th = data["html"]
+                hideLoader();
+                $('.load-panel2').html('<center>' + th + '</center>');
+                $(".load-panel2").css('background-image','url(../static/img/twitter-bg.png)');
+                $(".load-panel2").css('background-color','#C0DEED');
+            });                
+        }
+
+        else {
+        $('.load-panel2').html('<iframe width="100%" onLoad="hideLoader()" src="'+json["myurl"]+'"/>');
+                    $(".load-panel2").css('background-image','none');
+                    $(".load-panel2").css('background-color','white');            
+
+        }
+        nextId = json["link_id"];
+
+        console.log("original load's 2nd url is " + myurl);
+        addToHistory(myurl, myTitle);
+
+    },
+    error: function(data) {
+        console.log("second ajax led to error")
+    // alert('error');
+    }
+});
+
+}
+
+originalLoad();
+
+
+
+//---------------//
+// YOUTUBE CHECK //
+//---------------//
+
+function checkYoutube() {
+    console.log("Checking for Youtube")
+    var image = new Image();
+    image.onload = function(){
+        console.log("Youtube can be accessed - all good!");
+    };
+    image.onerror = function(){
+        console.log("No youtube access - setting switch");
+        $('#blocked-checkbox').bootstrapSwitch('state', true);
+    };
+    image.src = "http://youtube.com/favicon.ico";
+}
+
+
+
+// ----- //
+// SHARE //
+// ----- //
+
+function setShareBubbleLeft() {
+    //sets Left to the SMALLER of *left edge of interests button* OR *the minimum width needed to display bubble + 20px of padding*
+    $("#share-bubble").css("left", Math.min(($("#share").offset().left - 120), (window.innerWidth - $('#share-bubble').width() - 20) ).toString() + "px");
+}
+
+var shareBubbleCorrectTopOffset = "30px";
+var shareBubbleHiddenTopOffset = "-200px"; // ($( window ).height()).toString() + "px";
+$("#share-bubble").css("top", shareBubbleHiddenTopOffset);
+$("#share-bubble").css("opacity", "1");
+
+$('#share').click(function () { 
+    reloadShareHrefs(); //update the hrefs based on whats being displayed right now
+
+    //toggle the bubble
+    if (showShareBubble==false) {
+        $("#share-bubble").css("opacity", "1");
+        $("#share-bubble").css("top", shareBubbleCorrectTopOffset);
+        showShareBubble=true;
+
+        //just in case, close the interests bubble
+        $("#bubble").css("opacity", "0");
+        $("#bubble").css("top", bubbleHiddenTopOffset);
+        showBubble=false;
+    }
+    else {
+        $("#share-bubble").css("opacity", "1");
+        $("#share-bubble").css("top", shareBubbleHiddenTopOffset);
+        showShareBubble=false;
+    }
+
+    
+    setShareBubbleLeft();
+    event.stopPropagation();
+});
+
+
+$('#share-bubble').click(function () { 
+    $("#share-bubble").css("opacity", "1");
+    $("#share-bubble").css("top", shareBubbleCorrectTopOffset);
+    setShareBubbleLeft();
+    event.stopPropagation();
+});
+
+
+function reloadShareHrefs () {
+    $('#share-fb').attr('href', 'http://www.facebook.com/sharer/sharer.php?u='+getCurrentUrl());
+    $('#share-twitter').attr('href', 'http://twitter.com/share?url='+getCurrentUrl());
+    $('#share-google').attr('href', 'https://plus.google.com/share?url='+getCurrentUrl());
+    $('#share-pinterest').attr('href', 'http://pinterest.com/pin/create/button/?url='+getCurrentUrl());
+    $('#share-email').attr('href', 'mailto:?subject=DeenTrek%20Share:%20Have%20a%20look%20at%20this!&body='+getCurrentUrl()+"%0D%0A%0D%0AShared%20using%20DeenTrek:%20www.deentrek.com");
+}
+
+function ClipBoard(element) {
+  $("body").append("<input type='text' id='temp' style='position:absolute;opacity:0;'>");
+  $("#temp").val(getCurrentUrl()).select();
+  document.execCommand("copy");
+  $("#temp").remove();
+}
+
+//The label below the buttons
+$(".share-btns").hover(
+    function() {
+        $("#share-selection-label").text($(this).attr('name'));
+    },
+    function() {
+        $("#share-selection-label").text("");
+    }
+);
+
+$(".share-btns").click(
+    function() {
+        if ($(this).attr('id') != "share-copy") {
+            userScoreUpdate('share');     
+            queueShareNotify = true; //the notification is queued for when the user next opens the window
+        }
+        else {
+            myNotify('Copied to Clipboard!', 'fa-file-text-o');
+        }
+    }
+);
+
+
+// ----------//
+// INTERESTS //
+// ----------//
+
+//gets the height set in css
+var off = 37;
+var bubbleHeight = $("#bubble").css("height");
+var bubbleWidth = $("#bubble").css("width");
+var bubbleCorrectTopOffset = "40px";
+var bubbleHiddenTopOffset = "-500px";
+$("#bubble").css("opacity", "0");
+$("#bubble").css("top", bubbleHiddenTopOffset);
+
+function setInterestsBubbleLeft() {
+    //sets Left to the SMALLER of *left edge of interests button* OR *the minimum width needed to display bubble + 20px of padding*
+    $("#bubble").css("left", ( Math.min($(currentInterestsBtn).offset().left, (window.innerWidth - $('#bubble').width() - 20) ) ).toString() + "px");
+}
+
+$(".interests-button").click(function () { 
+
+    //toggle the bubble
+    if (showBubble==false) {
+        $("#bubble").css("opacity", "1");        
+        $("#bubble").css("top", bubbleCorrectTopOffset);
+        showBubble=true;
+
+        //just in case, close the share bubble
+        $("#share-bubble").css("opacity", "1");
+        $("#share-bubble").css("top", shareBubbleHiddenTopOffset);
+        showShareBubble=false;
+
+        //if on mobile, dim/show the labels
+        dimMobileLabelsIndefinitely();
+
+    }
+    else {
+        $("#bubble").css("opacity", "0");
+        $("#bubble").css("top", bubbleHiddenTopOffset);
+        showBubble=false;
+
+        //if on mobile, dim/show the labels
+        showMobileLabelsIndefinitely();
+    }
+
+    setInterestsBubbleLeft();
+    
+    event.stopPropagation();
+});
+
+
+$('#bubble').click(function () { 
+
+    $("#bubble").css("opacity", "1");        
+    $("#bubble").css("top", bubbleCorrectTopOffset);
+    setInterestsBubbleLeft();
+    event.stopPropagation();
+});
+
+//toggle switches change variables
+$('#youtube-checkbox').on('switchChange.bootstrapSwitch', function(event, state) {
+  showYoutube = state;
+  // originalLoad();
+});
+
+$('#articles-checkbox').on('switchChange.bootstrapSwitch', function(event, state) {
+  showArticles = state;
+  // originalLoad();
+});
+
+$('#quran-checkbox').on('switchChange.bootstrapSwitch', function(event, state) {
+  showQuran = state;
+  // originalLoad();
+});
+
+$('#sunnah-checkbox').on('switchChange.bootstrapSwitch', function(event, state) {
+  showSunnah = state;
+  // originalLoad();
+});
+
+$('#poetry-checkbox').on('switchChange.bootstrapSwitch', function(event, state) {
+  showPoetry = state;
+  // originalLoad();
+});
+
+$('#quiz-checkbox').on('switchChange.bootstrapSwitch', function(event, state) {
+  showQuizzes = state;
+  // originalLoad();
+});
+
+$('#tweet-checkbox').on('switchChange.bootstrapSwitch', function(event, state) {
+  showTweets = state;
+  // originalLoad();
+});
+
+$('#blocked-checkbox').on('switchChange.bootstrapSwitch', function(event, state) {
+  youtubeBlocked = state;
+  // originalLoad();
+});
+
+
+
+// --------------//
+// FEEDBACK FORM //
+// --------------//
+
+var x;
+var y;
+
+var feedbackSubmitted = false;
+
+//console.log($(currentInterestsBtn).offset().top + $(currentInterestsBtn).height());
+
+//click outside the feedback box and send button => make the box smaller and hide the send button
+$('html').click(function(e) {
+
+    popoverCheck();
+
+    if (feedbackSubmitted==false)
+    {
+        //$("#bubble").css("top", (event.pageY + 9).toString() + "px")
+        //$("#bubble").css("left", (event.pageX - 28).toString() + "px")
+        x = e.pageX;
+        y = e.pageY;
+
+     /*   console.log("x = " + e.pageX.toString());
+        console.log("y = " + e.pageY.toString());
+
+        console.log("width = " + $('#bubble').width())
+        console.log($('#bubble').offset().top)*/
+
+        //if clicked outside the bubble (based on coordinates)
+        if ( y<$('#bubble').offset().top || y>($('#bubble').offset().top + $('#bubble').height()) || x<$('#bubble').offset().left || x>($('#bubble').offset().left + $('#bubble').width()) ) {
+          //  console.log('DETECTED OUTSIDE');
+            $("#bubble").css("opacity", "0");
+            $("#bubble").css("top", bubbleHiddenTopOffset);
+            $("#bubble").css("left", ($(currentInterestsBtn).offset().left).toString() + "px");
+            showBubble=false;            
+        }
+
+        //if clicked outside the share bubble (based on coordinates)
+        if ( y<$('#share-bubble').offset().top || y>($('#share-bubble').offset().top + $('#share-bubble').height()) || x<$('#share-bubble').offset().left || x>($('#share-bubble').offset().left + $('#share-bubble').width()) ) {
+          //  console.log('DETECTED OUTSIDE');
+            $("#share-bubble").css("opacity", "0");
+            $("#share-bubble").css("top", shareBubbleHiddenTopOffset);
+            $("#share-bubble").css("left", ($("#share").offset().left - 120).toString() + "px");
+            showShareBubble=false;            
+        }
+
+        //make the feedback thing small again
+
+        $("#a").css("width", "150px");
+        $("#a").css("height", "37px");
+        $("#a").css("opacity", "1");
+        $("#b").css("opacity", "0");
+        $("#b").css("width", "100px");
+    }
+});
+
+//click in feedback input textbox => make it bigger, show send button
+$('#a').click(function(event){
+    $("#a").css("width", "300px");
+    $("#a").css("height", "200px");
+    $("#a").css("opacity", "1");
+    $("#b").css("opacity", "1");
+    $("#b").css("width", "300px");
+    event.stopPropagation();
+});
+
+//send button
+$('#b').click(function(event){ 
+        var text2 = { 'feedback': $("#a").val()};
+        //var obj = JSON.parse(text2);
+        //var json = JSON.parse(text2);
+       // console.log('CLICK')
+        $.ajax({
+            type: 'POST',
+            url: '/feedback/browse/',
+            data: {
+                'FB' : text2,
+                'myurl' : dispUrl
+            },
+            success: function(msg){
+                console.log("Success! Message: " + msg );
+                $("#thanks").css("display", "block");                
+                $("#a").css("opacity", "0");
+                $("#b").css("opacity", "0");
+                $("#a").css("width", "0px");
+                $("#b").css("width", "0px");
+                $("#a").css("height", "0px");
+                $("#b").css("height", "0px");
+                $("#thanks").css("width", "auto");
+                $("#thanks").css("opacity", "1");
+                feedbackSubmitted=true;
+            },
+            error: function(msg){
+                // alert('errorS'+msg);
+            }
+        })
+
+//        $.post( '/feedback/browse/', obj );
+    
+
+ /*   $.ajax({
+        type: 'POST',
+        url: '/feedback/browse/',
+        success: function (data) {
+
+        }
+    })
+*/
+    //event.stopPropagation();
+});
+
+//-------------//
+// BROKEN LINK //
+//-------------//
+
+var dispUrl; //the current url being displayed
+
+$('#report-broken').click(function(event){ 
+    console.log("report broken url: " + dispUrl);
+    
+    $.ajax({
+        type: 'POST',
+        url: '/feedback/broken/',
+        data: {
+            'myurl' : dispUrl
+        },
+        success: function(msg){
+            console.log("Success! Message: " + msg );
+            $("#thanks-broken").css("display", "block");                
+            $("#report-broken").css("opacity", "0");
+            $("#report-broken").css("width", "0px");
+            $("#report-broken").css("height", "0px");
+            $("#thanks-broken").css("width", "auto");
+            $("#thanks-broken").css("opacity", "1");
+        },
+        error: function(msg){
+            // alert('errorS'+msg);
+        }
+    })
+
+});
+
+
+//---------//
+// STUMBLE //
+//---------//
+
+var url1, url2;
+
+$("#stumble-click").click(function () { 
+
+    stumbleCount = stumbleCount + 1;
+    popoverCheck();
+
+    $(".prev-label").css("opacity","1");
+
+    $("#downvote-button").removeClass('stumble-button-red');
+    $("#upvote-button").removeClass('stumble-button-green');
+
+    //reset "report broken link" button
+    $("#thanks-broken").css("display", "float");                
+    $("#report-broken").css("opacity", "1");
+    $("#report-broken").css("width", "initial");
+    $("#report-broken").css("height", "initial");
+    $("#thanks-broken").css("width", "0");
+    $("#thanks-broken").css("opacity", "0"); 
+
+    //reset score limit
+ /*   users_start_time = users_time;
+    $('#deenscore').html(users_time);
+*/
+
+   userScoreUpdate('stumble');
+   hasVoted = false;
+
+    if (use_frame==1) { 
+            use_frame = 2;
+            console.log('2')
+            dispUrl = url1;
+            
+            $('.load-panel2').css('display', 'none');
+            $('.load-panel').css('display', 'block');
+            $.ajax({
+            type: 'POST',
+            url: '/next/',
+            data: {
+                'showYoutube' : showYoutube,
+                'showArticles': showArticles,
+                'showQuran': showQuran,
+                'showSunnah': showSunnah,
+                'showPoetry': showPoetry,
+                'showQuizzes': showQuizzes,
+                'showTweets': showTweets,
+                'youtubeBlocked' : youtubeBlocked
+            },
+            success: function (data) {
+                var json = JSON.parse(data);
+                myurl = json["myurl"];
+                myTitle = json["myTitle"];
+                if (myurl.indexOf('youtube.com') > -1)
+                {
+                    $('.load-panel2').html('<iframe width="200" onLoad="hideLoader()" height="200" src="'+json["myurl"]+'"/>');
+                    if (!isYoutubeCheckDone) {checkYoutube();}
+                $(".load-panel2").css('background-color','#222');
+                $(".load-panel2").css('background-image','none');
+                } 
+                else if (myurl.indexOf('twitter.com') > -1) {
+                    $.getJSON( "https://api.twitter.com/1/statuses/oembed.json?url=" + myurl + "&callback=?", function( data ) {
+                        var th = data["html"]
+                        hideLoader();
+                        $('.load-panel2').html('<center>' + th + '</center>');
+                        $(".load-panel2").css('background-image','url(../static/img/twitter-bg.png)');
+                        $(".load-panel2").css('background-color','#C0DEED');
+                    });                
+                }
+                else {
+                    $('.load-panel2').html('<iframe width="100%" onLoad="hideLoader()" src="'+json["myurl"]+'"/>');
+                    $(".load-panel2").css('background-image','none');
+                    $(".load-panel2").css('background-color','white');            
+
+                }
+                currId = nextId;
+                url2 = myurl; 
+                    // $('#upvote-button').attr('data-id',nextId)
+                    // $('#downvote-button').attr('data-id',nextId)
+                nextId = json["link_id"]
+
+                addToHistory(myurl, myTitle);
+                goToSecondLast();
+
+                
+            },
+            error: function(data) {
+            // alert('errors ' + data);
+            }
+        }); 
+    }
+    else {
+            use_frame = 1;
+            console.log('1')
+            dispUrl = url2;
+            
+            $('.load-panel').css('display', 'none');
+            $('.load-panel2').css('display', 'block');
+            console.log($('.load-panel2'));//.contentWindow.document.getElementById("verse_811").scrollIntoView();
+            $.ajax({
+            type: 'POST',
+            url: '/next/',
+            data: {
+                'showYoutube' : showYoutube,
+                'showArticles': showArticles,
+                'showQuran': showQuran,
+                'showSunnah': showSunnah,
+                'showPoetry': showPoetry,
+                'showQuizzes': showQuizzes,
+                'showTweets': showTweets,
+                'youtubeBlocked' : youtubeBlocked
+            },
+            success: function (data) {
+
+                var json = JSON.parse(data);
+                myurl = json["myurl"];
+                myTitle = json["myTitle"];
+                if (myurl.indexOf('youtube.com') > -1)
+                {
+                    $('.load-panel').html('<iframe width="200" onLoad="hideLoader()" height="200" src="'+json["myurl"]+'"/>');
+                    if (!isYoutubeCheckDone) {checkYoutube();}
+                    $(".load-panel").css('background-color','#222')
+                    $(".load-panel1").css('background-image','none');
+                    } 
+                    else if (myurl.indexOf('twitter.com') > -1) {
+                        $.getJSON( "https://api.twitter.com/1/statuses/oembed.json?url=" + myurl + "&callback=?", function( data ) {
+                            var th = data["html"]
+                            hideLoader();
+                            $('.load-panel').html('<center>' + th + '</center>');
+                            $(".load-panel").css('background-image','url(../static/img/twitter-bg.png)')
+                            $(".load-panel").css('background-color','#C0DEED')
+                        });                
+                    }
+
+                else {
+                    $('.load-panel').html('<iframe width="100%" onLoad="hideLoader()" src="'+json["myurl"]+'"/>');
+                    $(".load-panel").css('background-image','none');
+                    $(".load-panel").css('background-color','white');            
+
+                }
+               
+
+                currId = nextId;
+                url1 = myurl;
+                    // $('#upvote-button').attr('data-id',nextId)
+                    // $('#downvote-button').attr('data-id',nextId)
+                nextId = json["link_id"]
+
+                addToHistory(myurl, myTitle);
+                goToSecondLast();
+
+            },
+            error: function(data) {
+            // alert('errors ' + data);
+            }
+        });         
+    }
+    
+}); 
+
+$('.load-panel').load(function() {
+    this.style.height =
+    this.contentWindow.document.body.offsetHeight + 'px';
+});
+
+
+//------//
+// VOTE //
+//------//
+
+
+$("#upvote-button").click(function () {   
+    $("#upvote-button").addClass('stumble-button-green');    
+    $("#downvote-button").removeClass('stumble-button-red'); 
+
+    if (hasVoted==false) {
+        userScoreUpdate('vote');
+        myNotify('+10 points for Like!', 'fa-thumbs-up');
+    }
+    hasVoted = true;
+
+    $.ajax({
+            type: 'POST',
+            url: '/upvote/' + currId +'/',
+            success: function (data) {
+      },
+            error: function(data) {
+            }
+    }); 
+}); 
+$("#downvote-button").click(function () {           
+    $("#downvote-button").addClass('stumble-button-red');    
+    $("#upvote-button").removeClass('stumble-button-green');   
+
+    myNotify('+10 points for Dis-Like!', 'fa-thumbs-down');
+
+    if (hasVoted==false) {
+        userScoreUpdate('vote');
+    }
+    hasVoted = true;
+
+    $.ajax({
+            type: 'POST',
+            url: '/downvote/' + currId +'/',
+            success: function (data) {
+    
+      },
+            error: function(data) {
+// alert('errors ' + data);
+            }
+        }); 
+}); 
+
+
+
+
+</script>
+
+   
+</body>
+
+</html>

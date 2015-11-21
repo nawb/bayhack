@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <META NAME="ROBOTS" CONTENT="NOINDEX">
+
+    <title>DeenTrek</title>
+<link href={% static "css/landing.css"%} rel="stylesheet">
+    <style>
+    tr:nth-child(2n)
+    {
+    background-color:#eee;
+    }
+    </style>
+    
+</head>
+<link href={% static "css/bootstrap.min.css"%} rel="stylesheet">
+
+
+<body>
+
+
+
+
+<h1 style="font-family:'OpenSans'; font-weight: bold;padding:10px; text-align: center;">SubmittedURLS Approval Page <span style="font-size:24px">({{ all_submits.count }} Links)</span></h1>
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Link</th>
+      </tr>
+    </thead>
+    <tbody>
+    {%for link in all_submits reversed%}
+      <tr>
+        <td>{{link.url}}</td>
+        <td><a href="{{link.url}}" target="new_page">View</a></td>
+        <td>
+          <form method="POST" action="/approve-form/">
+            {%csrf_token%}
+            <input class="typeahead" type="hidden" value="{{link.url}}" id="lurl" name="lurl">
+            <input style="font-family: 'OpenSans'; font-weight:bold;  background-color:#5cb85c; color:white; border: solid #5cb85c 1px; border-radius:5px; padding:5px; padding-left:10px;padding-right:10px" type="submit" value="Approve">
+          </form>
+        </td>
+        <td>
+          <form method="POST" action="/approve-form-delete/">
+            {%csrf_token%}
+            <input class="typeahead" type="hidden" value="{{link.url}}" id="lurl" name="lurl">
+            <input style="font-family: 'OpenSans'; font-weight:bold;  background-color:#d9534f; color:white; border: solid #d9534f 1px; border-radius:5px; padding:5px; padding-left:10px;padding-right:10px" type="submit" value="Delete">
+          </form>
+        </td>
+        
+      </tr>
+      {%endfor%}
+    </tbody>
+  </table>    
+</body>
+
+{%include 'js.html'%}
+<script src={% static "js/typeahead.js"%}></script> 
+
+<script>
+
+$( document ).ready(function() {
+});
+
+var substringMatcher = function(strs) {
+  return function findMatches(q, cb) {
+    var matches, substringRegex;
+
+    // an array that will be populated with substring matches
+    matches = [];
+
+    // regex used to determine if a string contains the substring `q`
+    substrRegex = new RegExp(q, 'i');
+
+    // iterate through the pool of strings and for any string that
+    // contains the substring `q`, add it to the `matches` array
+    $.each(strs, function(i, str) {
+      if (substrRegex.test(str)) {
+        matches.push(str);
+      }
+    });
+
+    cb(matches);
+  };
+};
+
+var states = [{%for link in all_submits%}'{{link.url}}', {%endfor%}];
+
+$('#the-basics .typeahead').typeahead({
+  hint: true,
+  highlight: true,
+  minLength: 1
+},
+{
+  name: 'states',
+  source: substringMatcher(states)
+});
+</script>
+</html>

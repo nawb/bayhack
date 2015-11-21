@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <META NAME="ROBOTS" CONTENT="NOINDEX">
+
+    <title>DeenTrek: Browse the best Islamic content</title>
+
+    {%include 'css.html'%}
+    <script>
+    var use_frame = 2;
+    </script>
+
+    <style>
+    html { overflow-y: hidden; }
+    .navbar-collapse.collapse {
+    display: block!important;
+    }
+
+    .navbar-nav>li, .navbar-nav {
+    float: left !important;
+    }
+
+    .navbar-nav.navbar-right:last-child {
+    margin-right: -15px !important;
+    }
+
+    .navbar-right {
+    float: right!important;
+    }
+    </style>
+
+    <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-52040224-2', 'auto');
+  ga('send', 'pageview');
+
+</script>
+</head>
+
+<body>
+
+    <div id="wrapper" style="padding-left:0px !important">
+
+        <!-- Navigation -->
+        <nav class="navbar navbar-inverse navbar-fixed-top browse-navbar" role="navigation" style="min-height:55px; ">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <!-- <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse"> -->
+ <!--                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+  -->               <a class="navbar-brand" href="index.html" style="font-family:'ClearSans'; font-size: 24px; text-transform: initial !important; font-weight:bold; padding-top:18px; color:#a3ef9c">F<span class="hidden-sm hidden-xs">aith</span>B<span class="hidden-sm hidden-xs">ook</span></a>
+            </div>
+
+            <!-- Center Menu Items -->
+            
+            <div class="center-nav" >
+                <ul style="list-style: none;">
+<!--                     <li class="stumble-group">
+                        <a ID="downvote-button" data-id="1" class="btn btn-primary btn-xl stumble-button" href="javascript:void(0)" >
+                            <i class="fa fa-thumbs-down"></i>
+                        </a>
+                    </li>
+ -->
+ <!--                     <li class="stumble-group">
+                        <a ID="stumble-click" class="btn btn-primary btn-xl stumble-button" href="javascript:void(0)" >
+                            <p class="stumble-btn-text"><i class="fa fa-refresh"></i><span class="hidden-sm hidden-xs">&nbsp; Flip</span></p>
+                        </a>
+                    </li> -->
+<!--                     <li class="stumble-group">
+                        {% if person_name == "NOT_AUTH" %}
+                        <a class="btn btn-primary btn-xl stumble-button" href="/login/google-oauth2/" >
+                        {%else%}
+                        <a ID="upvote-button" data-id="1" class="btn btn-primary btn-xl stumble-button" href="javascript:void(0)" >
+                        {%endif%}
+                            <i class="fa fa-thumbs-up"></i>
+                        </a>
+                    </li>
+ -->                <!-- </ul> -->
+            <!-- </div> --> 
+            <!-- Top Menu Items -->
+            <!-- <ul class="nav navbar-right top-nav"> -->
+
+                
+
+                <li class="pull-right">
+                   <a class="btn btn-primary btn-xl google-button" id="delete-vote" >
+                        <i class="fa fa-trash"></i><span class="hidden-xs"> Delete Page
+                    </a>
+                </li>
+
+
+<!--                 <li class="pull-right" id="thanks" style="display:none">
+                   <a class="btn btn-primary btn-xl thanks-button" href="#" >
+                        <p class="google-btn-text"><i class="fa fa-check"></i> Thank you</p>
+                    </a>
+                </li>
+ -->
+<!--                 <li class="pull-right form-group hidden-sm hidden-xs">
+                    <div class="form-group">
+                        <textarea class="form-control feedback" id="a" rows="1" placeholder="Your feedback..." style="font-family:'ClearSans'; font-size: 17px; text-transform: initial !important; "></textarea>
+                    </div>
+                    <div id="b" class="form-group">
+                        <button class="form-control send-btn">Send!</button>
+                    </div>
+
+                </li>
+ -->
+            </ul>
+            </div>
+            <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
+        </nav>
+
+        <style>
+        #loadingBar{
+                position: absolute;
+                top:150px;
+                left: 0;
+                margin: auto;
+        }
+        </style>
+    <div id="loadingBar" style="text-align:center">
+    <img src="{%static 'img/orange-loader.gif'%}" style="width:20%;">
+    </div>
+    <div class="load-panel">
+
+    </div>
+    <div class="load-panel2">
+    </div>
+     
+    <style>
+    .load-panel {
+    position: relative;
+    padding-bottom: 56.25%; /* 16:9 */
+    /*padding-top: 55px;*/
+    height: 0;
+    }
+    .load-panel2 {
+    position: relative;
+    padding-bottom: 56.25%; /* 16:9 */
+    /*padding-top: 55px;*/
+    height: 0;
+    }
+    .load-panel iframe {
+        position: absolute;
+        top: 0px;
+        left: 0;
+        width: 100%;
+        height: 85%;
+    }
+    .load-panel2 iframe {
+        position: absolute;
+        top: 0px;
+        left: 0;
+        width: 100%;
+        height: 85%;
+    }
+    </style>        
+
+    </div>
+    <!-- /#wrapper -->
+    
+{%include 'js.html'%}
+
+<script>
+
+var nextId = 0;
+var currId = 0;
+
+function hideLoader(){
+    $('#loadingBar').css('display','none');
+}
+
+$( document ).ready(function() {
+        console.log('0');
+        $('.load-panel2').css('display', 'none');
+        $('.load-panel').css('display', 'block');
+        $.ajax({
+        type: 'POST',
+        url: '/next/',
+        success: function (data) {
+            var json = JSON.parse(data);
+            myurl = "{{myurl}}";
+            if (myurl.indexOf('youtube.com') > -1)
+            {
+            $('.load-panel').html('<iframe width="200" height="100" onLoad="hideLoader()" src="{{myurl}}"/>');
+            } else {
+            $('.load-panel').html('<object width="100%" height="1000px" onLoad="hideLoader()" data="{{myurl}}"/>');
+            }
+            currId = json["link_id"];
+        },
+        error: function(data) {
+        alert('error');
+        }
+
+
+    }); 
+
+  
+
+});
+// --------------//
+// FEEDBACK FORM //
+// --------------//
+
+
+var feedbackSubmitted = false;
+
+//click outside the feedback box and send button => make the box smaller and hide the send button
+$('html').click(function() {
+    if (feedbackSubmitted==false)
+    {
+        $("#a").css("width", "150px");
+        $("#a").css("height", "37px");
+        $("#a").css("opacity", "1");
+        $("#b").css("opacity", "0");
+        $("#b").css("width", "100px");
+    }
+});
+
+//click in feedback input textbox => make it bigger, show send button
+$('#a').click(function(event){
+    $("#a").css("width", "300px");
+    $("#a").css("height", "200px");
+    $("#a").css("opacity", "1");
+    $("#b").css("opacity", "1");
+    $("#b").css("width", "300px");
+    event.stopPropagation();
+});
+
+//send button
+$('#b').click(function(event){ 
+        var text2 = { 'feedback': $("#a").val()};
+        //var obj = JSON.parse(text2);
+        //var json = JSON.parse(text2);
+        console.log('CLICK')
+        $.ajax({
+            type: 'POST',
+            url: '/feedback/browse/',
+            data: {
+                'FB' : text2
+            },
+            success: function(msg){
+                console.log("Success! Message: " + msg );
+                $("#thanks").css("display", "block");                
+                $("#a").css("opacity", "0");
+                $("#b").css("opacity", "0");
+                $("#a").css("width", "0px");
+                $("#b").css("width", "0px");
+                $("#a").css("height", "0px");
+                $("#b").css("height", "0px");
+                $("#thanks").css("width", "auto");
+                $("#thanks").css("opacity", "1");
+                feedbackSubmitted=true;
+            },
+            error: function(msg){
+                alert('errorS'+msg);
+            }
+        })
+
+//        $.post( '/feedback/browse/', obj );
+    
+
+ /*   $.ajax({
+        type: 'POST',
+        url: '/feedback/browse/',
+        success: function (data) {
+
+        }
+    })
+*/
+    //event.stopPropagation();
+});
+
+//---------//
+// STUMBLE //
+//---------//
+
+
+$("#stumble-click").click(function () { 
+    $("#downvote-button").addClass('stumble-button');
+    $("#downvote-button").removeClass('stumble-button-green');    
+    $("#upvote-button").addClass('stumble-button');
+    $("#upvote-button").removeClass('stumble-button-green');    
+    if (use_frame==1) { 
+            use_frame = 2;
+            console.log('2')
+            $('.load-panel2').css('display', 'none');
+            $('.load-panel').css('display', 'block');
+            $.ajax({
+            type: 'POST',
+            url: '/next/',
+            success: function (data) {
+                var json = JSON.parse(data);
+                myurl = json["myurl"];
+                if (myurl.indexOf('youtube.com') > -1)
+                {
+                $('.load-panel2').html('<iframe width="200" height="200" src="'+json["myurl"]+'"/>');
+                } else {
+                $('.load-panel2').html('<object width="100%" height="1000px" data="'+json["myurl"]+'"/>');
+                }
+                currId = nextId;
+                    // $('#upvote-button').attr('data-id',nextId)
+                    // $('#downvote-button').attr('data-id',nextId)
+                nextId = json["link_id"]
+            },
+            error: function(data) {
+            alert('error');
+            }
+        }); 
+    }
+    else {
+            use_frame = 1;
+            console.log('1')
+            $('.load-panel').css('display', 'none');
+            $('.load-panel2').css('display', 'block');
+            $.ajax({
+            type: 'POST',
+            url: '/next/',
+            success: function (data) {
+                var json = JSON.parse(data);
+                myurl = json["myurl"];
+                if (myurl.indexOf('youtube.com') > -1)
+                {
+                $('.load-panel').html('<iframe width="200" height="200" src="'+json["myurl"]+'"/>');
+                } else {
+                $('.load-panel').html('<object width="100%" height="1000px" data="'+json["myurl"]+'"/>');
+                }
+                currId = nextId;
+                    // $('#upvote-button').attr('data-id',nextId)
+                    // $('#downvote-button').attr('data-id',nextId)
+                nextId = json["link_id"]
+            },
+            error: function(data) {
+            alert('error');
+            }
+        });         
+    }
+}); 
+$("#delete-vote").click(function () {   
+    $.ajax({
+            type: 'POST',
+            url: '/delete-vote/' + {{link_id}} +'/',
+            success: function (data) {
+                window.close();
+      },
+            error: function(data) {
+alert('error');  
+
+            }
+        }); 
+}); 
+$("#downvote-button").click(function () {           
+    $("#downvote-button").removeClass('stumble-button');
+    $("#downvote-button").addClass('stumble-button-green');    
+    $("#upvote-button").addClass('stumble-button');
+    $("#upvote-button").removeClass('stumble-button-green');    
+    $.ajax({
+            type: 'POST',
+            url: '/downvote/' + currId +'/',
+            success: function (data) {
+    
+      },
+            error: function(data) {
+alert('error');
+            }
+        }); 
+}); 
+        
+</script>
+    
+</body>
+
+</html>
